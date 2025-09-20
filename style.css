@@ -10,10 +10,12 @@ body {
     font-size: 1.2rem;
     font-family: 'Work Sans', sans-serif;
     min-height: 4000px;
+    overflow-x: hidden;
 }
 
 .no-scroll {
-  overflow-y: hidden;
+  position: fixed;
+  width: 100%;
 }
 
 
