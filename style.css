@@ -94,6 +94,42 @@ body {
 }
 
 
+/* Animasi untuk tombol Lihat Undangan */
+@keyframes bouncing {
+  0%, 100% {
+    transform: translateY(0);
+    background-color: white;
+    color: var(--blue);
+    box-shadow: var(--shadow);
+  }
+  50% {
+    transform: translateY(8px);
+    background-color: var(--blue);
+    color: white;
+    box-shadow: 0 8px 20px rgba(31, 30, 73, 0.5);
+  }
+}
+
+.hero a.btn {
+  animation: bouncing 2s ease-in-out infinite;
+}
+
+
+/* Styling untuk Efek Mengetik */
+.typing-animation::after {
+  content: '|';
+  display: inline;
+  margin-left: 5px;
+  animation: blink 1s step-end infinite;
+  color: white; /* Sesuaikan warna kursor jika perlu */
+}
+
+@keyframes blink {
+  50% {
+    opacity: 0;
+  }
+}
+
 .home {
     background-image: url(img/2.webp);
     background-size: cover;
@@ -434,6 +470,45 @@ footer li {
         transform: rotate(360deg);
     }
 }
+
+
+/* Custom Styling untuk Countdown Timer */
+.simply-countdown {
+  display: flex;
+  justify-content: center;
+  gap: 20px; /* Memberi jarak antar kotak */
+}
+
+.simply-section {
+  background-color: rgba(255, 255, 255, 0.15); /* Latar belakang semi-transparan */
+  backdrop-filter: blur(5px); /* Efek kaca buram */
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 15px; /* Sudut yang lebih tumpul */
+  width: 120px;
+  height: 120px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  box-shadow: var(--shadow);
+}
+
+.simply-amount {
+  display: block;
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: white;
+  text-shadow: var(--shadow);
+}
+
+.simply-word {
+  display: block;
+  font-size: 1rem;
+  color: white;
+  text-shadow: var(--shadow);
+}
+
 
 
 /* media query */

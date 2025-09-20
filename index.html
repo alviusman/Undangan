@@ -31,7 +31,7 @@
       <main>
         <h4>Kepada <span>semua Bapak/Ibu/saudara/I, </span></h4>
         <h1>Alviusman Harita</h1>
-        <p>Akan Melaksanakan Sidang Skripsi Dalam:</p>
+        <p id="typing-text" class="typing-animation"></p>
         <div class="simply-countdown"></div>
         <a href="#home" class="btn btn-lg mt-4" onclick="enablescroll(event)">Lihat Undangan</a>
       </main>
@@ -521,6 +521,53 @@
   namaContainer.innerText = `${pronoun} ${nama},`.replace(/ ,$/, ',');
 
   document.querySelector('#nama').value = nama;
+</script>
+
+
+<script>
+  // --- Script untuk Animasi Mengetik ---
+  document.addEventListener('DOMContentLoaded', function() {
+    const typingElement = document.getElementById('typing-text');
+    const textToType = "Akan Melaksanakan Sidang Skripsi Dalam:";
+    const typingSpeed = 100; // Kecepatan mengetik (milidetik)
+    const deletingSpeed = 50; // Kecepatan menghapus (milidetik)
+    const pauseDuration = 2000; // Jeda sebelum mulai menghapus (milidetik)
+
+    let charIndex = 0;
+    let isDeleting = false;
+
+    function type() {
+      const currentText = textToType.substring(0, charIndex);
+      typingElement.textContent = currentText;
+
+      let speed = isDeleting ? deletingSpeed : typingSpeed;
+
+      if (!isDeleting) {
+        // Proses Mengetik
+        charIndex++;
+        // Tambahkan variasi acak pada kecepatan mengetik agar lebih alami
+        speed += Math.random() * 100 - 40; // Menambah variasi antara -40ms dan +60ms
+        if (charIndex > textToType.length) {
+          isDeleting = true;
+          setTimeout(type, pauseDuration); // Jeda setelah selesai mengetik
+          return;
+        }
+      } else {
+        // Proses Menghapus
+        charIndex--;
+        if (charIndex < 0) {
+          isDeleting = false;
+          charIndex = 0;
+          setTimeout(type, 500); // Jeda sebelum mulai mengetik lagi
+          return;
+        }
+      }
+
+      setTimeout(type, speed);
+    }
+
+    type(); // Mulai animasi
+  });
 </script>
                         
   </body>
