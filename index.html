@@ -320,9 +320,21 @@
             </div>
         </div>
           <div class="col-12" style="margin-top: 36px;">
-            <button class="btn btn-primary">Kirim</button>
+            <button class="btn btn-primary" type="submit" id="my-form-button">Kirim</button>
           </div>
       </form>
+
+      <div class="row justify-content-center">
+        <div class="col-md-6">
+          <div id="my-form-alert" class="alert alert-success alert-dismissible fade show mt-3 d-none" role="alert">
+            <strong>Terima Kasih!</strong> Konfirmasi kehadiran Anda sudah kami terima.
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+        </div>
+      </div>
+      <div class="row justify-content-center mt-5">
+        <div class="col-md-6">
+          <div id="disqus_thread"></div>
 
         <div class="row justify-content-center mt-5">
           <div class="col-md-6">
@@ -497,20 +509,58 @@
 
 <script>
   window.addEventListener("load", function() {
-  const form = document.getElementById('my-form');
-  form.addEventListener("submit", function(e) {
-    e.preventDefault();
-    const data = new FormData(form);
-    const action = e.target.action;
-    fetch(action, {
-      method: 'POST',
-      body: data,
-    })
-    .then(() => {
-      alert("Konfirmasi kehadiran berhasil terkirim");
-    })
+    const form = document.getElementById('my-form');
+    const submitButton = document.getElementById('my-form-button');
+    const formAlert = document.getElementById('my-form-alert');
+
+    form.addEventListener("submit", function(e) {
+      e.preventDefault();
+
+      // 1. Tampilkan status loading di tombol
+      submitButton.disabled = true;
+      submitButton.innerHTML = `<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Mengirim...`;
+
+      const data = new FormData(form);
+      const action = e.target.action;
+      fetch(action, {
+        method: 'POST',
+        body: data,
+      })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.text();
+      })
+      .then(() => {
+        // 2. Tampilkan pesan sukses
+        formAlert.classList.remove('d-none');
+        
+        // 3. Ubah tombol menjadi status terkirim
+        submitButton.innerHTML = `✔ Terkirim!`;
+
+        // 4. Reset form
+        form.reset();
+
+        // 5. TAMBAHKAN INI: Isi kembali nama dari URL agar tidak hilang
+        const namaDariLink = new URLSearchParams(window.location.search).get('n') || '';
+        document.querySelector('#nama').value = namaDariLink;
+
+        // 6. Kembalikan tombol ke keadaan semula setelah beberapa detik
+        setTimeout(() => {
+          submitButton.disabled = false;
+          submitButton.innerHTML = 'Kirim';
+        }, 3000); // 3 detik
+      })
+      .catch((error) => {
+        // Jika terjadi error
+        console.error('Error:', error);
+        alert('Maaf, terjadi kesalahan saat mengirim data. Silakan coba lagi.');
+        submitButton.disabled = false;
+        submitButton.innerHTML = 'Kirim';
+      });
+    });
   });
-});
 </script>
 
 <script>
